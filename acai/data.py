@@ -1,10 +1,12 @@
 import cv2
 import numpy as np
 from matplotlib import pyplot as plt
+    
+
+IMAGE_SIZE = 32
 
 def make_line_image(angle: float) -> np.ndarray:
     DRAWING_IMAGE_SIZE = 256
-    IMAGE_SIZE = 32
     
     startpoint = (0.5, 0.5)
     endpoint = (startpoint[0] + np.sin(angle) * 0.5, startpoint[1] + np.cos(angle) * 0.5)

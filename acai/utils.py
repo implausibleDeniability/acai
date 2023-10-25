@@ -3,6 +3,7 @@ import torch
 
 
 def fix_seeds(seed):
+    torch.use_deterministic_algorithms(True)
     np.random.seed(seed)
     torch.manual_seed(seed)
 

@@ -7,17 +7,22 @@ from ..autoencoders.acai import AutoencoderBase
 
 
 class InterpolationMonitoring(MonitoringCallbackBase):
-    def __init__(self, src_image, target_image, interpolation_steps: int = 7):
+    def __init__(self, src_image, target_image, interpolation_steps: int = 7, key='monitoring/interpolation'):
         self.interpolation_steps = interpolation_steps
-        self.key = "images/test"
+        self.key = key
         self.src_image = src_image
         self.target_image = target_image
 
     def __call__(self, trainer):
         trainer.autoencoder.eval()
+        self._transfer_images_to_device(trainer.device)
         interpolated_images = self._interpolate(trainer.autoencoder)
         collage = self._combine_interpolated_with_original(interpolated_images)
         trainer.logger.log_images(self.key, collage)
+
+    def _transfer_images_to_device(self, device):
+        self.src_image = self.src_image.to(device)
+        self.target_image = self.target_image.to(device)
 
     def _interpolate(self, model: AutoencoderBase) -> torch.Tensor:
         """

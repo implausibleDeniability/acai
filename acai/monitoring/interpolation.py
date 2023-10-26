@@ -6,7 +6,7 @@ from ..image_utils import torch2numpy_image, collage_images
 from ..autoencoders.acai import AutoencoderBase
 
 
-class InterpolationCallback(MonitoringCallbackBase):
+class InterpolationMonitoring(MonitoringCallbackBase):
     def __init__(self, src_image, target_image, interpolation_steps: int = 7):
         self.interpolation_steps = interpolation_steps
         self.key = "images/test"

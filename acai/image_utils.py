@@ -21,14 +21,14 @@ def torch2numpy_image(image: torch.Tensor) -> np.ndarray:
     Parameters
     ----------
     image: torch.Tensor
-        tensor of shape [N_CHANNELS, H, W] or [BATCH_SIZE, N_CHANNELS, H, W]
+        tensor of shape [*, N_CHANNELS, H, W]
     
     Returns
     -------
     np.ndarray
-        image or images with shape [H, W, N_CHANNELS] or [BATCH_SIZE, H, W, N_CHANNELS]
+        image or images with shape [*, H, W, N_CHANNELS]
     """
-    assert image.ndim in [3, 4]
+    assert image.ndim >= 3
     image = image.cpu().detach().numpy()
     image = np.moveaxis(image, -3, -1)
     return image

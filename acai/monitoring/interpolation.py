@@ -7,45 +7,44 @@ from ..autoencoders.acai import AutoencoderBase
 
 
 class InterpolationMonitoring(MonitoringCallbackBase):
-    def __init__(self, src_image, target_image, interpolation_steps: int = 7, key='monitoring/interpolation'):
+    def __init__(self, src_images, target_images, interpolation_steps: int = 7, key='monitoring/interpolation'):
         self.interpolation_steps = interpolation_steps
         self.key = key
-        self.src_image = src_image
-        self.target_image = target_image
+        self.src_images = src_images
+        self.target_images = target_images
 
     def __call__(self, trainer):
         trainer.autoencoder.eval()
         self._transfer_images_to_device(trainer.device)
         interpolated_images = self._interpolate(trainer.autoencoder)
-        collage = self._combine_interpolated_with_original(interpolated_images)
+        collage = self._make_collage_image(interpolated_images)
         trainer.logger.log_images(self.key, collage)
 
     def _transfer_images_to_device(self, device):
-        self.src_image = self.src_image.to(device)
-        self.target_image = self.target_image.to(device)
+        self.src_images = self.src_images.to(device)
+        self.target_images = self.target_images.to(device)
 
     def _interpolate(self, model: AutoencoderBase) -> torch.Tensor:
         """
         :param model: autoencoder
-        :param src_image: torch.Tensor of shape [N_CHANNELS, HEIGHT, WIDTH]
-        :param target_image: torch.Tensor of shape [N_CHANNELS, HEIGHT, WIDTH]
         :return: list of interpolated images
-        :rtype: list[torch.Tensor], tensors of shape [N_CHANNELS, HEIGHT, WIDTH]
+        :rtype: list[torch.Tensor], tensors of shape [N_IMAGES, 2+N_INTERPOLATION_STEPS, N_CHANNELS, H, W]
         """
-        src_latent = model.encoder(self.src_image.unsqueeze(0))
-        target_latent = model.encoder(self.target_image.unsqueeze(0))
+        src_latent = model.encoder(self.src_images)
+        target_latent = model.encoder(self.target_images)
         latents_interpolation = [
             (1 - alpha) * src_latent + alpha * target_latent
             for alpha in np.linspace(0.0, 1.0, self.interpolation_steps)
         ]
         images_interpolation = [
-            model.decoder(latent).detach()[0]
+            model.decoder(latent).detach()
             for latent in latents_interpolation
         ]
-        return images_interpolation
+        # [2+N_INTERPOLATION_STEPS, N_IMAGES, N_CHANNELS, H, W]
+        merged_original_and_interpolation = torch.stack([self.src_images] + images_interpolation + [self.target_images])
+        return torch.transpose(merged_original_and_interpolation, 0, 1)
 
-    def _combine_interpolated_with_original(self, interpolated_images):
-        torch_image_sequence = torch.stack([self.src_image] + interpolated_images + [self.target_image])
-        numpy_image_sequence = torch2numpy_image(torch_image_sequence)
-        collaged_image = collage_images([numpy_image_sequence])
+    def _make_collage_image(self, interpolated_images):
+        numpy_images = torch2numpy_image(interpolated_images)
+        collaged_image = collage_images([image for image in numpy_images])
         return collaged_image

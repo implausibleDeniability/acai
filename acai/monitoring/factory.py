@@ -13,8 +13,8 @@ class MonitoringType:
 class MonitoringFactory:
     def build(self, monitoring_type: MonitoringType, n_images: int):
         if monitoring_type == MonitoringType.interpolation:
-            images = generate_batch(2)
-            return InterpolationMonitoring(images[0], images[1])
+            images = generate_batch(n_images * 2)
+            return InterpolationMonitoring(images[:n_images], images[n_images:])
         elif monitoring_type == MonitoringType.reconstruction:
             images = generate_batch(n_images)
             return ReconstructionMonitoring(images)

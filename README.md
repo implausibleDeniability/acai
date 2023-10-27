@@ -14,4 +14,9 @@ Here are the intermediate result for ACAI notebook:
 - [ ] Experiment: AvgPool -> MaxPool
 - [ ] Experiment: LeakyReLU -> ReLU
 - [ ] Experiment: remove batchnorm
-- [ ] Experiment with MNIST dataset
+- [ ] Experiment with feature extraction on MNIST dataset
+    - [x] Implement MNIST dataloader
+    - [ ] Run experiment with MNIST dataloader
+    - [ ] Add model save after training
+    - [ ] Implement feature extractor from autoencoder
+    - [ ] Train MLP on features from AE and ACAI

@@ -19,7 +19,7 @@ class MNISTDataLoader(DataLoaderBase):
         """
         :return: NDArray [70000, HEIGHT, WIDTH]
         """
-        x, y = fetch_openml('mnist_784', return_X_y=True, as_frame=False, data_home='data/')
+        x, y = fetch_openml('mnist_784', return_X_y=True, as_frame=False, data_home='mnist/')
         return x.reshape(70000, 28, 28)
     
     def get_train_batch(self, batch_size: Optional[int] = None):

@@ -10,6 +10,7 @@ Here are the intermediate result for ACAI notebook:
 - [x] Rewrite visualization logging through external callbacks or smth like this
 - [ ] Experiment: default lambda
 - [ ] Experiment: L2 -> L1
+- [ ] Experiment: correct train/eval mode
 - [ ] Experiment: AvgPool -> MaxPool
 - [ ] Experiment: LeakyReLU -> ReLU
 - [ ] Experiment: remove batchnorm

@@ -16,7 +16,7 @@ class MonitoringFactory:
             images = dataloader.get_eval_batch(n_images * 2)
             return InterpolationMonitoring(images[:n_images], images[n_images:])
         elif monitoring_type == MonitoringType.reconstruction:
-            images = dataloader.get_eval_batch(n_images * 2)
+            images = dataloader.get_eval_batch(n_images)
             return ReconstructionMonitoring(images)
         else:
             raise NotImplementedError()

@@ -1,0 +1,15 @@
+
+- [x] Find out why the code is not deterministic in terms of loss history, and fix it
+- [x] Add functionality to visualize interpolation dynamics
+- [x] Rewrite visualization logging through external callbacks or smth like this
+- [ ] Experiment: default lambda
+- [ ] Experiment: L2 -> L1
+- [ ] Experiment: correct train/eval mode
+- [ ] Experiment: AvgPool -> MaxPool
+- [ ] Experiment: remove batchnorm
+- [ ] Experiment with feature extraction on MNIST dataset
+    - [x] Implement MNIST dataloader
+    - [x] Run experiment with MNIST dataloader
+    - [ ] Add model save after training
+    - [ ] Implement feature extractor from autoencoder
+    - [ ] Train MLP on features from AE and ACAI

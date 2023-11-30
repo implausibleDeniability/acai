@@ -1,22 +1,9 @@
 # Adversarially-constrained Autoencoder Interpolation
 
-Here are the intermediate result for ACAI notebook:
+Implementation and experiments for ACAI model from "Understanding and Improving Interpolation in Autoencoders via an Adversarial Regularizer" ([arxiv](https://arxiv.org/pdf/1807.07543.pdf)).
 
-![figs/preliminary_result_24oct.jpg](figs/preliminary_result_24oct.jpg)
+![](figs/acai_interpolation.jpg)
 
-## TODO
-- [x] Find out why the code is not deterministic in terms of loss history, and fix it
-- [x] Add functionality to visualize interpolation dynamics
-- [x] Rewrite visualization logging through external callbacks or smth like this
-- [ ] Experiment: default lambda
-- [ ] Experiment: L2 -> L1
-- [ ] Experiment: correct train/eval mode
-- [ ] Experiment: AvgPool -> MaxPool
-- [ ] Experiment: LeakyReLU -> ReLU
-- [ ] Experiment: remove batchnorm
-- [ ] Experiment with feature extraction on MNIST dataset
-    - [x] Implement MNIST dataloader
-    - [ ] Run experiment with MNIST dataloader
-    - [ ] Add model save after training
-    - [ ] Implement feature extractor from autoencoder
-    - [ ] Train MLP on features from AE and ACAI
+Classic autoencoder        |  ACAI
+:-------------------------:|:-------------------------:
+![](figs/autoencoder_interpolation_wandb.png)  |  ![](figs/acai_interpolation_wandb.png)
